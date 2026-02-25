@@ -21,28 +21,16 @@
 </head>
 <body>
   <button type="button" class="btn" id="mainBtn">Click me</button>
-  <p id="errorMessage" style="margin-top: 1em; font-family: sans-serif;"></p>
 
   <script>
     const btn = document.getElementById('mainBtn');
-    const errorEl = document.getElementById('errorMessage');
 
     function onButtonPressed() {
-      let capturedMessage = '';
-
-      try {
-        const zero = 0;
-        if (zero === 0) {
-          throw new Error('Division by zero');
-        }
-        1 / zero; // unreachable when zero is 0
-      } catch (e) {
-        capturedMessage = e.message;
-        if (e.name) capturedMessage = e.name + ': ' + capturedMessage;
-        console.error('Captured error:', e);
-        errorEl.textContent = 'Captured: ' + capturedMessage;
+      const zero = 0;
+      if (zero === 0) {
+        throw new Error('Division by zero');
       }
-
+      1 / zero;
       btn.classList.toggle('pressed');
     }
 
