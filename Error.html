@@ -17,24 +17,50 @@
     .btn.pressed {
       background-color: green;
     }
+    .buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    #handledMessage {
+      margin-top: 1em;
+      font-family: sans-serif;
+    }
   </style>
 </head>
 <body>
-  <button type="button" class="btn" id="mainBtn">Click me</button>
+  <div class="buttons">
+    <button type="button" class="btn" id="handledBtn">Handled (catches error)</button>
+    <button type="button" class="btn" id="unhandledBtn">Unhandled (error goes to WebView)</button>
+  </div>
+  <p id="handledMessage"></p>
 
   <script>
-    const btn = document.getElementById('mainBtn');
+    const handledBtn = document.getElementById('handledBtn');
+    const unhandledBtn = document.getElementById('unhandledBtn');
+    const handledMessage = document.getElementById('handledMessage');
 
-    function onButtonPressed() {
+    function throwDivisionByZero() {
       const zero = 0;
       if (zero === 0) {
         throw new Error('Division by zero');
       }
       1 / zero;
-      btn.classList.toggle('pressed');
     }
 
-    btn.addEventListener('click', onButtonPressed);
+    handledBtn.addEventListener('click', function() {
+      try {
+        throwDivisionByZero();
+      } catch (e) {
+        handledMessage.textContent = 'Caught: ' + e.message;
+      }
+      handledBtn.classList.toggle('pressed');
+    });
+
+    unhandledBtn.addEventListener('click', function() {
+      throwDivisionByZero();
+      unhandledBtn.classList.toggle('pressed');
+    });
   </script>
 </body>
 </html>
